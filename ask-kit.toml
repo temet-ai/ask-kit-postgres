@@ -1,0 +1,24 @@
+id = "temet.postgres"
+name = "postgres"
+version = "0.1.0"
+min_ask_kit = "0.2.0"
+requires = ["psql"]
+says = "a PostgreSQL database: which tables and columns hold something, how many rows, what a row says, how big tables and indexes are, why a query is slow (EXPLAIN, pg_stat_statements, missing index), what is running or locked now; and acting on it (any SQL, writes, indexes, VACUUM, ANALYZE)"
+keywords = ["postgres(ql)?", "psql", "sql", "tables?", "columns?", "schema", "rows?", "index(es)?", "explain", "pg_stat\\w*", "vacuum", "locks?", "queries"]
+route_hint = "data and structure in a Postgres database (tables, columns, row counts, query plans, locks, sizes) is postgres; what a past session did with the database is sessions; the code that talks to it is code"
+cite = "schema.table and column names, the SQL that produced the number, or a pid / queryid"
+instructions = "instructions.md"
+bench = "bench/questions.json"
+acts = ["any SQL the connection's role may run: INSERT, UPDATE, DELETE, DDL, CREATE INDEX, VACUUM, ANALYZE, pg_terminate_backend"]
+
+[[settings]]
+key = "DATABASE_URL"
+about = "the database to connect to, as postgres://user:password@host:port/db"
+required = true
+secret = true
+
+[[sources]]
+kind = "module"
+name = "pg"
+module = "pg.mjs"
+api = "api.d.ts"

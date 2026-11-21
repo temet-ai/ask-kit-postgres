@@ -1,0 +1,41 @@
+{
+  "about": "The kinds of question agents answer by hand with psql: which tables hold a column, how big a table is, who is connected, how a query would run, which statement is slowest. They use only PostgreSQL's catalogs and statistics views, so they run against any database, and their patterns check the shape of an answer. Add questions about your own tables with expectations from your own data.",
+  "questions": [
+    {
+      "id": "find-column",
+      "q": "Which tables in the pg_catalog schema have a column called datname?",
+      "expect": ["pg_database", "datname"]
+    },
+    {
+      "id": "describe-table",
+      "q": "What columns does pg_catalog.pg_namespace have?",
+      "expect": ["nspname", "oid"]
+    },
+    {
+      "id": "size-database",
+      "q": "How big is the current database on disk?",
+      "expect": ["\\d+(\\.\\d+)? ?(kB|KB|MB|GB|GiB|MiB|bytes)"]
+    },
+    {
+      "id": "connections",
+      "q": "Which applications are connected to this database right now, and how many connections does each hold?",
+      "expect": ["\\b\\d+\\b"],
+      "any": ["psql", "application", "ask-kit", "idle|active"]
+    },
+    {
+      "id": "explain-catalog",
+      "q": "How would Postgres run `select count(*) from pg_class where relkind = 'r'`? Which scan does it use?",
+      "expect": ["scan"]
+    },
+    {
+      "id": "activity-shot",
+      "do": "activity",
+      "expect": ["connections|max_connections"]
+    },
+    {
+      "id": "size-shot",
+      "do": "size",
+      "expect": ["database|schema"]
+    }
+  ]
+}
